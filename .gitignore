@@ -2,4 +2,4 @@
 .idea
 
 #Ignore .iml
-.iml
+*.iml
