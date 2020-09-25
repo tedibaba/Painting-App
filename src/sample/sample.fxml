@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1024.0" prefWidth="1280.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <center>
+      <Canvas fx:id="canvas" height="853.0" onMouseDragged="#draw" width="1064.0" BorderPane.alignment="CENTER" />
+   </center>
+   <left>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER_RIGHT">
+         <children>
+            <AnchorPane prefHeight="873.0" prefWidth="100.0">
+               <children>
+                  <Canvas fx:id="colorChosen" height="85.0" layoutX="41.0" layoutY="50.0" width="82.0" />
+                  <Label layoutX="14.0" layoutY="14.0" text="Color Chosen">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="46.0" layoutY="135.0" text="Width">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="chosenWidth" layoutX="76.0" layoutY="174.0" text="0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+   </left>
+   <top>
+      <Label text="Painting App" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+   </top>
+   <bottom>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="BOTTOM_CENTER" spacing="100.0">
+               <children>
+                  <Slider fx:id="slider" onMouseClicked="#ChangeTheThickness" onMouseDragged="#ChangeTheThickness" prefHeight="14.0" prefWidth="209.0" showTickLabels="true" value="1.0" />
+                  <Slider fx:id="red" max="255.0" onMouseClicked="#chooseColor" onMouseDragged="#chooseColor" prefHeight="33.0" prefWidth="177.0" showTickLabels="true" />
+                  <Slider fx:id="green" max="255.0" onMouseClicked="#chooseColor" onMouseDragged="#chooseColor" prefHeight="33.0" prefWidth="176.0" showTickLabels="true" />
+                  <Slider fx:id="blue" max="255.0" onMouseClicked="#chooseColor" onMouseDragged="#chooseColor" prefHeight="33.0" prefWidth="171.0" showTickLabels="true" />
+               </children>
+            </HBox>
+            <AnchorPane prefHeight="63.0" prefWidth="1280.0">
+               <children>
+                  <Label layoutX="179.0" layoutY="-3.0" text="Thickness">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="502.0" layoutY="-3.0" text="Red">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="766.0" layoutY="-3.0" text="Green">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="1050.0" layoutY="-3.0" text="Blue">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+   </bottom>
+</BorderPane>
