@@ -16,6 +16,7 @@ import javafx.scene.paint.Color;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -33,11 +34,15 @@ public class Controller implements Initializable {
     private Canvas colorChosen;
     @FXML
     private Label chosenWidth;
+    @FXML
+    private Button eraseButton;
+    @FXML
+    private Canvas width;
 
     GraphicsContext gc;
     Color color;
-    Double lineWidth = 5.0d;
-    GraphicsContext combination;
+    Double lineWidth = 1.0d;
+    boolean isErase = false;
 
     //Drawing on the canvas
     @FXML
@@ -59,31 +64,73 @@ public class Controller implements Initializable {
         double greenValue = green.getValue();
         double blueValue = blue.getValue();
         color = Color.color(redValue / 255, greenValue / 255, blueValue/ 255);
-        combination = colorChosen.getGraphicsContext2D();
-        combination.setFill(color);
-        combination.fillRect(0,0, colorChosen.getWidth(), colorChosen.getHeight());
+        gc = colorChosen.getGraphicsContext2D();
+        gc.setFill(color);
+        gc.fillRect(0,0, colorChosen.getWidth(), colorChosen.getHeight());
         System.out.println(color);
 
     }
 
     //Changing the thickness of the brush
     @FXML
-    private void ChangeTheThickness(MouseEvent event){
+    private void changeTheThickness(){
         double thickness = slider.getValue();
         lineWidth = thickness;
         String value = String.format("%.2f", thickness);
         chosenWidth.setText(value);
+        showChosenWidth(thickness);
     }
 
-    //making the canvas white
+    //When the user clicks on the button, a random color will be chosen
+    @FXML
+    private void randomColor(){
+        Random random = new Random();
+        double redValue = random.nextDouble() * 255;
+        double greenValue = random.nextDouble() * 255;
+        double blueValue = random.nextDouble() * 255;
+        red.adjustValue(redValue);
+        green.adjustValue(greenValue);
+        blue.adjustValue(blueValue);
+        chooseColor();
+    }
+
+    //Erase button
+    @FXML
+    private void erase(ActionEvent event){
+        if (isErase == false){
+            eraseButton.getStylesheets().add(getClass().getResource("eraseCss.css").toExternalForm());
+            changeTheThickness();
+            color = Color.WHITE;
+            gc = colorChosen.getGraphicsContext2D();
+            gc.setFill(color);
+            gc.fillRect(0,0, colorChosen.getWidth(), colorChosen.getHeight());
+            isErase = true;
+        } else {
+            eraseButton.getStylesheets().clear();
+            chooseColor();
+            isErase = false;
+        }
+    }
+
+    //Showing the width that the user has chosen
+    @FXML
+    private void showChosenWidth(Double lineWidth){
+        gc = width.getGraphicsContext2D();
+        gc.clearRect(0,0, width.getWidth(), width.getHeight());
+        gc.setFill(color);
+        gc.fillOval(0, 0, lineWidth, lineWidth);
+    }
+
+    //making the canvas white and the color chosen black
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         gc = canvas.getGraphicsContext2D();
-        combination = colorChosen.getGraphicsContext2D();
+        GraphicsContext combination = colorChosen.getGraphicsContext2D();
         Color color =  Color.WHITE;
         gc.setFill(color);
         gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
         combination.setFill(Color.BLACK);
         combination.fillRect(0,0, colorChosen.getWidth(), colorChosen.getHeight());
+        chosenWidth.setText("1.00");
     }
 }
