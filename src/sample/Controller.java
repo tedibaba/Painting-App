@@ -2,8 +2,10 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -12,7 +14,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,11 +42,27 @@ public class Controller implements Initializable {
     private Button eraseButton;
     @FXML
     private Canvas width;
+    @FXML
+    private Button insertShape;
 
     GraphicsContext gc;
     Color color;
     Double lineWidth = 1.0d;
     boolean isErase = false;
+    boolean isShape = false;
+    boolean isClear = false;
+    Random random = new Random();
+    ArrayList<Double> positionOfShape = new ArrayList<>();
+
+
+    @FXML
+    private void drawOrShape(MouseEvent event){
+        if (isShape == false){
+            draw(event);
+        } else {
+            drawShape(event);
+        }
+    }
 
     //Drawing on the canvas
     @FXML
@@ -67,7 +87,6 @@ public class Controller implements Initializable {
         gc = colorChosen.getGraphicsContext2D();
         gc.setFill(color);
         gc.fillRect(0,0, colorChosen.getWidth(), colorChosen.getHeight());
-        System.out.println(color);
 
     }
 
@@ -84,7 +103,6 @@ public class Controller implements Initializable {
     //When the user clicks on the button, a random color will be chosen
     @FXML
     private void randomColor(){
-        Random random = new Random();
         double redValue = random.nextDouble() * 255;
         double greenValue = random.nextDouble() * 255;
         double blueValue = random.nextDouble() * 255;
@@ -96,7 +114,7 @@ public class Controller implements Initializable {
 
     //Erase button
     @FXML
-    private void erase(ActionEvent event){
+    private void erase(){
         if (isErase == false){
             eraseButton.getStylesheets().add(getClass().getResource("eraseCss.css").toExternalForm());
             changeTheThickness();
@@ -121,6 +139,15 @@ public class Controller implements Initializable {
         gc.fillOval(0, 0, lineWidth, lineWidth);
     }
 
+    @FXML
+    private void randomArt() throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("randomArt.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+    }
+
     //making the canvas white and the color chosen black
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -133,4 +160,86 @@ public class Controller implements Initializable {
         combination.fillRect(0,0, colorChosen.getWidth(), colorChosen.getHeight());
         chosenWidth.setText("1.00");
     }
+
+    //Generating random art or random things
+
+    public void generatingTheArt(String shape, String number, String color){
+        invoke(shape, number, color);
+    }
+
+    private void invoke(String shape, String number, String color){
+        gc = canvas.getGraphicsContext2D();
+        for (int i = 0; i < Integer.getInteger(number); i++){
+            gc.setFill(Color.BLACK);
+            gc.strokeOval(random.nextInt() * canvas.getWidth(), random.nextInt() * canvas.getHeight(), 5, 5);
+        }
+    }
+
+    //Changing the canvas from drawing to drawing shapes
+    @FXML
+    private void shape(){
+        if (isShape == false){
+            isShape = true;
+        } else {
+            isShape = false;
+        }
+    }
+
+    @FXML
+    private void drawShape(MouseEvent event){
+        double widthSquare;
+        double heightSquare;
+        double posX;
+        double posY;
+
+        if (positionOfShape.isEmpty() == true){
+            positionOfShape.add(event.getX());
+            positionOfShape.add(event.getY());
+            System.out.println(positionOfShape.get(0) + " " + positionOfShape.get(1));
+        } else {
+            Double x = event.getX();
+            Double y = event.getY();
+            gc = canvas.getGraphicsContext2D();
+            gc.setStroke(color);
+            gc.setLineWidth(lineWidth);
+            double distance = EuclideanDistance(positionOfShape.get(0), positionOfShape.get(1), x, y);
+//            gc.strokeOval(positionOfShape.get(0), positionOfShape.get(1), distance, distance);
+
+            if (positionOfShape.get(0) < x){
+                widthSquare = x - positionOfShape.get(0);
+                posX = positionOfShape.get(0);
+            } else {
+                widthSquare = positionOfShape.get(0) - x;
+                posX = x;
+            }
+
+            if (positionOfShape.get(1) < y){
+                heightSquare = y - positionOfShape.get(1);
+                posY = positionOfShape.get(1);
+            } else {
+                heightSquare = positionOfShape.get(1) - y ;
+                posY = y;
+            }
+            gc.strokeRect(posX, posY, widthSquare, heightSquare);
+            System.out.println(x + " " + y);
+            positionOfShape.remove(0);
+            positionOfShape.remove(0);
+        }
+    }
+
+    private double EuclideanDistance(double x2, double y2, double x1, double y1){
+        double y = y2 - y1;
+        double x = x2 - x1;
+        double distance = Math.sqrt((Math.pow(x, 2)) + (Math.pow(y, 2)));
+        return distance;
+    }
+
+    @FXML
+    private void clearBoard(){
+        gc = canvas.getGraphicsContext2D();
+        color = Color.WHITE;
+        gc.setFill(color);
+        gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
+    }
+
 }

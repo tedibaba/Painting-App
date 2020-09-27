@@ -12,7 +12,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1024.0" prefWidth="1280.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <center>
-      <Canvas fx:id="canvas" height="853.0" onMouseDragged="#draw" width="982.0" BorderPane.alignment="CENTER" />
+      <Canvas fx:id="canvas" height="853.0" onMouseClicked="#drawOrShape" onMouseDragged="#drawOrShape" width="982.0" BorderPane.alignment="CENTER" />
    </center>
    <left>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER_RIGHT">
@@ -96,6 +96,9 @@
          <children>
             <Button mnemonicParsing="false" onAction="#randomColor" text="Random Color" />
             <Button fx:id="eraseButton" mnemonicParsing="false" onAction="#erase" text="Erase" />
+            <Button mnemonicParsing="false" onAction="#randomArt" text="Generate Random" />
+            <Button fx:id="insertShape" mnemonicParsing="false" onAction="#shape" text="Insert Shape" />
+            <Button mnemonicParsing="false" onAction="#clearBoard" text="Clear " />
          </children>
       </VBox>
    </right>
