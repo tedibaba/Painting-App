@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class randomArtController implements Initializable {
@@ -21,20 +22,14 @@ public class randomArtController implements Initializable {
     private ChoiceBox numberOfShapes;
 
     private void possibleShapes(){
-        ArrayList<String> shape = new ArrayList<>();
-        shape.add("Square");
-        shape.add("Circle");
-        shape.add("Oval");
+        ArrayList<String> shape = new ArrayList<String>(Arrays.asList("Square", "Circle", "Oval"));
         for (String i: shape){
             shapes.getItems().add(i);
         }
     }
 
     private void possibleColors(){
-        ArrayList<String> color = new ArrayList<>();
-        color.add("Black");
-        color.add("Blue");
-        color.add("Yellow");
+        ArrayList<String> color = new ArrayList<String>(Arrays.asList("Black", "Blue", "Yellow"));
         for (String i : color){
             colors.getItems().add(i);
         }
@@ -42,10 +37,7 @@ public class randomArtController implements Initializable {
     }
 
     private void possibleNumberOfShapes(){
-        ArrayList<Character> number = new ArrayList<>();
-        number.add('1');
-        number.add('2');
-        number.add('3');
+        ArrayList<Character> number = new ArrayList<Character>(Arrays.asList('1', '2', '3'));
         for (Character i: number){
             numberOfShapes.getItems().add(i);
         }

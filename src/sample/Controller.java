@@ -57,7 +57,7 @@ public class Controller implements Initializable {
 
     @FXML
     private void drawOrShape(MouseEvent event){
-        if (isShape == false){
+        if (!isShape){
             draw(event);
         } else {
             drawShape(event);
@@ -115,7 +115,7 @@ public class Controller implements Initializable {
     //Erase button
     @FXML
     private void erase(){
-        if (isErase == false){
+        if (!isErase){
             eraseButton.getStylesheets().add(getClass().getResource("eraseCss.css").toExternalForm());
             changeTheThickness();
             color = Color.WHITE;
@@ -178,7 +178,7 @@ public class Controller implements Initializable {
     //Changing the canvas from drawing to drawing shapes
     @FXML
     private void shape(){
-        if (isShape == false){
+        if (!isShape){
             isShape = true;
         } else {
             isShape = false;
@@ -192,7 +192,7 @@ public class Controller implements Initializable {
         double posX;
         double posY;
 
-        if (positionOfShape.isEmpty() == true){
+        if (positionOfShape.isEmpty()){
             positionOfShape.add(event.getX());
             positionOfShape.add(event.getY());
             System.out.println(positionOfShape.get(0) + " " + positionOfShape.get(1));
@@ -230,8 +230,7 @@ public class Controller implements Initializable {
     private double EuclideanDistance(double x2, double y2, double x1, double y1){
         double y = y2 - y1;
         double x = x2 - x1;
-        double distance = Math.sqrt((Math.pow(x, 2)) + (Math.pow(y, 2)));
-        return distance;
+        return Math.sqrt((Math.pow(x, 2)) + (Math.pow(y, 2)));
     }
 
     @FXML
